@@ -38,7 +38,7 @@ def experiment(**kwargs):
             success_count += 1
 
     # Calculate probability
-    probability = success_count / num_experiments
+    probability = float(success_count) / float(num_experiments)
     return probability
 
 random.seed(95)
