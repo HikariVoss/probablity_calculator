@@ -1,15 +1,19 @@
 # probablity_calculator
+
 ## freecodecamp challenge: probability calculator
+
 Suppose there is a hat containing 5 blue balls, 4 red balls, and 2 green balls. What is the probability that a random draw of 4 balls will contain at least 1 red ball and 2 green balls? While it would be possible to calculate the probability using advanced mathematics, an easier way is to write a program to perform a large number of experiments to estimate an approximate probability.
 
 For this project, you will write a program to determine the approximate probability of drawing certain balls randomly from a hat.
 
 First, create a `Hat` class in `prob_calculator.py`. The class should take a variable number of arguments that specify the number of balls of each color that are in the hat. For example, a class object could be created in any of these ways:
+
 ```
 hat1 = Hat(yellow=3, blue=2, green=6)
 hat2 = Hat(red=5, orange=4)
 hat3 = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
 ```
+
 A hat will always be created with at least one ball. The arguments passed into the hat object upon creation should be converted to a `contents` instance variable. `contents` should be a list of strings containing one item for each ball in the hat. Each item in the list should be a color name representing a single ball of that color. For example, if your hat is `{"red": 2, "blue": 1}`, `contents` should be `["red", "red", "blue"]`.
 
 The `Hat` class should have a `draw` method that accepts an argument indicating the number of balls to draw from the hat. This method should remove balls at random from `contents` and return those balls as a list of strings. The balls should not go back into the hat during the draw, similar to an urn experiment without replacement. If the number of balls to draw exceeds the available quantity, return all the balls.
@@ -26,6 +30,7 @@ The `experiment` function should return a probability.
 For example, if you want to determine the probability of getting at least two red balls and one green ball when you draw five balls from a hat containing six black, four red, and three green. To do this, you will perform `N` experiments, count how many times `M` you get at least two red balls and one green ball, and estimate the probability as `M/N`. Each experiment consists of starting with a hat containing the specified balls, drawing several balls, and checking if you got the balls you were attempting to draw.
 
 Here is how you would call the `experiment` function based on the example above with 2000 experiments:
+
 ```
 hat = Hat(black=6, red=4, green=3)
 probability = experiment(hat=hat,
@@ -33,8 +38,14 @@ probability = experiment(hat=hat,
                   num_balls_drawn=5,
                   num_experiments=2000)
 ```
+
 Since this is based on random draws, the probability will be slightly different each time the code is run.
 
 Hint: Consider using the modules that are already imported at the top of `prob_calculator.py`. Do not initialize random seed within `prob_calculator.py`.
 
 ## My solution
+
+To deal with the fact that a different amount of arguments will be passed to the `Hat` class I'm using `kwargs`, I am also using them for the arguments of the `experiment` function.
+The `experiment` fuction first uses the `get` method on the kwargs to extract all the arguments.
+Then using a for loop like this: `for _ in range(num_experiments)` it loops for the number of desired experiments. Then it takes a deep copy of the hat, to avoid accidental modification of the original hat and draws the number of balls. By using `hat_copy.contents.pop(random.randrange(len(hat_copy.contents))) for _ rnage(num_balls_drawn)`. Then taking the balls drawn and comparing them to the `expected_balls` dictionary we can find the number of successful draws.
+Finally we divide the number of successful draws by the number of experiments to find the probablity
